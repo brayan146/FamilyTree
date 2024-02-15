@@ -10,7 +10,8 @@ public class Main {
             @Override
             public void run() {
                 JFrame frame = new ArbolBinarioGrafico();
-                frame.setSize(400, 400);
+                frame.setSize(700, 600);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setVisible(true);
             }
         });

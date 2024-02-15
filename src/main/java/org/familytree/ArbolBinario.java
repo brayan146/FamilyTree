@@ -10,17 +10,37 @@ public class ArbolBinario implements IArbolBinario{
         root = null;
     }
 
-    public ArbolBinario(int data) {
+    public ArbolBinario(String data) {
         root = new Nodo(data);
     }
 
     @Override
-    public void insert(int data) {
-        root = insert(root, data);
+    public void insert(String parentNode, String newNode) {
+        Nodo parent = getNode(parentNode);
+        if (parent == null) {
+            System.out.println("El nodo padre no existe en el árbol");
+            return;
+        }
+        if (search(newNode)) {
+            System.out.println("El nodo ya existe en el árbol");
+            return;
+        }
+        if (parent.left == null) {
+            parent.left = new Nodo(newNode);
+        } else if (parent.right == null) {
+            parent.right = new Nodo(newNode);
+        } else {
+            System.out.println("El nodo padre ya tiene dos hijos");
+        }
     }
 
     @Override
-    public boolean search(int data) {
+    public void insert(String data) {
+        root = insert1(root, data);
+    }
+
+    @Override
+    public boolean search(String data) {
         return search(root, data);
     }
 
@@ -30,37 +50,37 @@ public class ArbolBinario implements IArbolBinario{
     }
 
     @Override
-    public Nodo getNode(int data) {
+    public Nodo getNode(String data) {
         return getNode(root, data);
     }
 
     @Override
-    public void delete(int data) {
+    public void delete(String data) {
         root = delete(root, data);
     }
 
     @Override
-    public int[] inOrder() {
+    public String[] inOrder() {
         int treeSize = size();
-        int[] result = new int[treeSize];
+        String[] result = new String[treeSize];
         inOrder(root, result,0);
         System.out.println(Arrays.toString(result));
         return result;
     }
 
     @Override
-    public int[] preOrder() {
+    public String[] preOrder() {
         int treeSize = size();
-        int[] result = new int[treeSize];
+        String[] result = new String[treeSize];
         preOrder(root, result,0);
         System.out.println(Arrays.toString(result));
         return result;
     }
 
     @Override
-    public int[] postOrder() {
+    public String[] postOrder() {
         int treeSize = size();
-        int[] result = new int[treeSize];
+        String[] result = new String[treeSize];
         postOrder(root, result,0);
         System.out.println(Arrays.toString(result));
         return result;
@@ -81,42 +101,30 @@ public class ArbolBinario implements IArbolBinario{
 
     }
 
-    private static Nodo delete(Nodo root, int data) {
+    private static Nodo delete(Nodo root, String data) {
         if(root == null) {
             return null;
         }
 
-        if(data < root.data) {
+        if (data.compareTo(root.data) < 0) {
             root.left = delete(root.left, data);
-        }
-
-        else if(data > root.data) {
+        } else if (data.compareTo(root.data) > 0) {
             root.right = delete(root.right, data);
-        }
-
-        else {
-            // Node Leaf
-            if(root.left == null && root.right == null) {
-                return null;
-            }
-
-            if(root.left == null) {
+        } else {
+            if (root.left == null) {
                 return root.right;
-            }
-
-            if(root.right == null) {
+            } else if (root.right == null) {
                 return root.left;
             }
 
             root.data = minValue(root.right);
             root.right = delete(root.right, root.data);
         }
-
         return root;
     }
 
-    private static int minValue(Nodo node) {
-        int minv = node.data;
+    private static String minValue(Nodo node) {
+        String minv = node.data;
         while (node.left != null) {
             minv = node.left.data;
             node = node.left;
@@ -124,7 +132,7 @@ public class ArbolBinario implements IArbolBinario{
         return minv;
     }
 
-    private static int preOrder(Nodo root, int[] result, int index) {
+    private static int preOrder(Nodo root, String[] result, int index) {
         if(root == null) {
             return index;
         }
@@ -137,7 +145,7 @@ public class ArbolBinario implements IArbolBinario{
 
     }
 
-    private static int inOrder(Nodo root, int[] result, int index) {
+    private static int inOrder(Nodo root, String[] result, int index) {
         if(root == null) {
             return index;
         }
@@ -150,7 +158,7 @@ public class ArbolBinario implements IArbolBinario{
         return index;
     }
 
-    private static int postOrder(Nodo root, int[] result, int index) {
+    private static int postOrder(Nodo root, String[] result, int index) {
         if(root == null) {
             return index;
         }
@@ -162,51 +170,36 @@ public class ArbolBinario implements IArbolBinario{
         return index;
     }
 
-    private static boolean search(Nodo root, int data) {
+    private static boolean search(Nodo root, String data) {
         if(root == null) {
             return false;
         }
 
-        if(root.data == data) {
+        if(root.data.equals(data)) {
             return true;
         }
 
-        if(data < root.data) {
-            return search(root.left, data);
-        } else {
-            return search(root.right, data);
-        }
+        return search(root.left, data) || search(root.right, data);
     }
 
-    private static Nodo getNode(Nodo root, int data) {
-        if(root == null) {
+    private static Nodo getNode(Nodo root, String data) {
+        if (root == null) {
             return null;
         }
 
-        if(root.data == data) {
+        if (root.data.equals(data)) {
             return root;
         }
 
-        if(data < root.data) {
-            return getNode(root.left, data);
-        } else {
-            return getNode(root.right, data);
+        Nodo leftSearch = getNode(root.left, data);
+        if (leftSearch != null) {
+            return leftSearch;
         }
+
+        return getNode(root.right, data);
     }
 
-    private static Nodo insert(Nodo root, int data) {
-        if(root == null) {
-            return new Nodo(data);
-        }
 
-        if(data < root.data) {
-            root.left = insert(root.left, data);
-        } else if (data > root.data) {
-            root.right = insert(root.right, data);
-        }
-
-        return root;
-    }
 
 
     private static int size(Nodo root) {
@@ -224,5 +217,20 @@ public class ArbolBinario implements IArbolBinario{
 
         return 1 + Math.max(height(root.left), height(root.right));
     }
+    public static Nodo insert1(Nodo root, String data) {
+        if (root == null) {
+            return new Nodo(data);
+        }
+        if (data.compareTo(root.data) < 0) {
+            root.left = insert1(root.left, data);
+        } else if (data.compareTo(root.data) > 0) {
+            root.right = insert1(root.right, data);
+        }
+        return root;
+    }
+
+
+
+
 
 }

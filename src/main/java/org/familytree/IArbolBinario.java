@@ -6,7 +6,7 @@ public interface IArbolBinario {
      *
      * @param data The data to be inserted.
      */
-    void insert(int data);
+    void insert(String data);
 
     /**
      * Searches for a node with the given data in the binary tree.
@@ -14,7 +14,7 @@ public interface IArbolBinario {
      * @param data The data to search for.
      * @return True if the data is found, false otherwise.
      */
-    boolean search(int data);
+    boolean search(String data);
 
     /**
      * Returns the root node of the binary tree.
@@ -29,35 +29,35 @@ public interface IArbolBinario {
      * @param data The data to search for.
      * @return The node with the given data, or null if not found.
      */
-    Nodo getNode(int data);
+    Nodo getNode(String data);
 
     /**
      * Deletes a node with the given data from the binary tree, if it exists.
      *
      * @param data The data of the node to delete.
      */
-    void delete(int data);
+    void delete(String data);
 
     /**
      * Performs an in-order traversal of the binary tree and returns an array of node data.
      *
      * @return An array of node data in in-order traversal order.
      */
-    int[] inOrder();
+    String[] inOrder();
 
     /**
      * Performs a pre-order traversal of the binary tree and returns an array of node data.
      *
      * @return An array of node data in pre-order traversal order.
      */
-    int[] preOrder();
+    String[] preOrder();
 
     /**
      * Performs a post-order traversal of the binary tree and returns an array of node data.
      *
      * @return An array of node data in post-order traversal order.
      */
-    int[] postOrder();
+    String[] postOrder();
 
     /**
      * Calculates and returns the height of the binary tree.
@@ -77,4 +77,6 @@ public interface IArbolBinario {
      * Prints the elements of the method traversals inorder, preorder, and postorder
      */
     void print();
+
+    void insert(String parentNode, String newNode);
 }

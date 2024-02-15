@@ -1,11 +1,11 @@
 package org.familytree;
 
 public class Nodo {
-    public int data;
+    public String data;
     public Nodo left;
     public Nodo right;
 
-    public Nodo(int data) {
+    public Nodo(String data) {
         this.data = data;
         this.left = null;
         this.right = null;

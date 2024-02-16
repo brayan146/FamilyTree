@@ -83,6 +83,70 @@ public class GenealogyTests {
         child.setMother(mother);
         Assertions.assertEquals(mother, child.getMother());
     }
+    @Test
+    public void testTree() {
+        Tree tree = new Tree();
+        Assertions.assertNotNull(tree);
+    }
+    @Test
+    public void testInsertNode() {
+        tree.insertNode("Father", "");
+        Assertions.assertEquals("Father", tree.search("Father").getData());
+    }
+    @Test
+    public void testInsertNodeWithParent() {
+        tree.insertNode("Father", "");
+        tree.insertNode("Child", "Father");
+        Assertions.assertEquals("Child", tree.search("Child").getData());
+    }
+    @Test
+    public void testInsertNodeWithParentNotFound() {
+        tree.insertNode("Father", "");
+        tree.insertNode("Child", "Mother");
+        Assertions.assertEquals("Child", tree.search("Child").getData());
+    }
+    @Test
+    public void testInsertNodeWithParentNotFoundAndRoot() {
+        tree.insertNode("Father", "");
+        tree.insertNode("Child", "Mother");
+        tree.insertNode("Child", "");
+        Assertions.assertEquals("Child", tree.search("Child").getData());
+    }
+    @Test
+    public void getPathFromRootToNode() {
+        tree.insertNode("Father", "");
+        tree.insertNode("Child", "Father");
+        Assertions.assertEquals("Father", tree.getPathFromRootToNode("Father").get(0).getData());
+        Assertions.assertEquals("Child", tree.getPathFromRootToNode("Child").get(1).getData());
+    }
+    @Test
+    public void getFather() {
+        tree.insertNode("Father", "");
+        tree.insertNode("Child", "Father");
+        Assertions.assertEquals("Father", tree.getFather("Child").getData());
+    }
+
+    @Test
+    public void getRelationship() {
+        tree.insertNode("Father", "");
+        tree.insertNode("Child", "Father");
+        Assertions.assertEquals("Father", tree.getRelationship("Father", "Child"));
+    }
+    @Test
+    public void getRelationshipSon() {
+        tree.insertNode("Father", "");
+        tree.insertNode("Child", "Father");
+        Assertions.assertEquals("Son", tree.getRelationship("Child", "Father"));
+    }
+    @Test
+    public void getRelationshipGrandFather() {
+        tree.insertNode("Father", "");
+        tree.insertNode("Child", "Father");
+        tree.insertNode("GrandChild", "Child");
+        Assertions.assertEquals("Grandfather", tree.getRelationship("Father", "GrandChild"));
+
+    }
+
 
 
 

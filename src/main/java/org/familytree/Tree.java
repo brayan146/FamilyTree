@@ -158,6 +158,8 @@ public class Tree {
     }
 
 
+
+
     public String getRelationship(String person1, String person2)  {
 
         Node node1 = search(person1);
@@ -170,14 +172,52 @@ public class Tree {
         if (fatherOfPerson2 != null && fatherOfPerson2.getData().equals(person1)) {
             return "Father";
         }
-
+        if (fatherOfPerson2 != null ) {
+            Node grandFatherOfPerson2 = getFather(fatherOfPerson2.getData());
+            if (grandFatherOfPerson2 != null && grandFatherOfPerson2.getData().equals(person1)) {
+                return "Grandfather";
+            }
+            if (grandFatherOfPerson2 != null) {
+                Node greatGrandFatherOfPerson2 = getFather(grandFatherOfPerson2.getData());
+                if (greatGrandFatherOfPerson2 != null && greatGrandFatherOfPerson2.getData().equals(person1)) {
+                    return "Great Grandfather";
+                }
+                if (greatGrandFatherOfPerson2 != null) {
+                    Node greatGreatGrandFatherOfPerson2 = getFather(greatGrandFatherOfPerson2.getData());
+                    if (greatGreatGrandFatherOfPerson2 != null && greatGreatGrandFatherOfPerson2.getData().equals(person1)) {
+                        return "Great Great Grandfather";
+                    }
+                }
+            }
+        }
 
         List<Node> sonsOfPerson2 = getSon(person2);
         for (Node son : sonsOfPerson2) {
             if (son.getData().equals(person1)) {
                 return "Son";
             }
+            List<Node> grandsonsOfSon = getSon(son.getData());
+            for (Node grandson : grandsonsOfSon) {
+                if (grandson.getData().equals(person1)) {
+                    return "Grandson";
+                }
+                List<Node> greatGrandsonsOfGrandson = getSon(grandson.getData());
+                for (Node greatGrandson : greatGrandsonsOfGrandson) {
+                    if (greatGrandson.getData().equals(person1)) {
+                        return "Great Grandson";
+                    }
+                    List<Node> greatGreatGrandsonsOfGreatGrandson = getSon(greatGrandson.getData());
+                    for (Node greatGreatGrandson : greatGreatGrandsonsOfGreatGrandson) {
+                        if (greatGreatGrandson.getData().equals(person1)) {
+                            return "Great Great Grandson";
+                        }
+                    }
+                }
+            }
+
         }
+
+
 
 
         List<Node> fullSiblingsOfPerson2 = getFullSiblings(person2);
@@ -215,6 +255,16 @@ public class Tree {
                 return "Paternal Grandparent";
             }
         }
+        Node fatherOfPerson1 = getFather(person1);
+        if (fatherOfPerson1!=null){
+            List<Node> siblingsOfFatherOfPerson1 = getFullSiblings(fatherOfPerson1.getData());
+            for (Node sibling : siblingsOfFatherOfPerson1) {
+                if (sibling.getData().equals(person2)) {
+                    return "Nephew or Niece";
+                }
+            }
+        }
+
 
 
         return "No Exist in the Familytree";

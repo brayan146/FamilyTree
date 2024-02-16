@@ -123,12 +123,12 @@ public class GraphicTree extends JFrame {
                 JOptionPane.showMessageDialog(null, "One or both of the persons do not exist in the tree. Please enter valid names.");
                 return;
             }
-            try {
+            //try {
                 String relationship = arbol.getRelationship(person1, person2);
                 JOptionPane.showMessageDialog(null, "The relationship between " + person1 + " and " + person2 + " is: " + relationship);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e.getMessage(), "ALERT", JOptionPane.ERROR_MESSAGE);
-            }
+           // } catch (Exception e) {
+            //    JOptionPane.showMessageDialog(null, e.getMessage(), "ALERT", JOptionPane.ERROR_MESSAGE);
+           // }
         } else {
             JOptionPane.showMessageDialog(null, "Invalid names. Please enter valid names.");
         }

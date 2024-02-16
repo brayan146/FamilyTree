@@ -11,7 +11,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArbolBinarioGrafico extends JFrame{
+public class ArbolBinarioGrafico extends JFrame {
     private JPanel ventana;
 
     Tree arbol = new Tree();
@@ -39,8 +39,8 @@ public class ArbolBinarioGrafico extends JFrame{
     }
 
     public void buildTree() {
-        while (bool){
-            String[] opciones = {"1 - Insert Node Root", "2 - Insert Node Child", "3 - Draw Tree", "4 - Exit"};
+        while (bool) {
+            String[] opciones = {"1 - Insert Node Root", "2 - Insert Node Child", "3 - Draw Tree","4.-Determine Relationship", "4 - Exit"};
             int seleccion = JOptionPane.showOptionDialog(null, "Choose an Option", "Menu Genealogy Tree",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, opciones, opciones[0]);
 
@@ -55,12 +55,36 @@ public class ArbolBinarioGrafico extends JFrame{
                     pintarArbol();
                     break;
                 case 3:
+                    determineRelationship();
+                    break;
+                case 4:
                     exitTree();
                     break;
                 default:
                     JOptionPane.showMessageDialog(null, "Invalid choice. Please enter a valid option.");
                     break;
             }
+        }
+    }
+
+    public void determineRelationship() {
+        String person1 = JOptionPane.showInputDialog("Enter the name of the first person: ");
+        String person2 = JOptionPane.showInputDialog("Enter the name of the second person: ");
+        if (person1 != null && person2 != null && !person1.isEmpty() && !person2.isEmpty()) {
+            Node person1Node = arbol.search(person1);
+            Node person2Node = arbol.search(person2);
+            if (person1Node == null || person2Node == null) {
+                JOptionPane.showMessageDialog(null, "One or both of the persons do not exist in the tree. Please enter valid names.");
+                return;
+            }
+            try {
+                String relationship = arbol.getRelationship(person1, person2);
+                JOptionPane.showMessageDialog(null, "The relationship between " + person1 + " and " + person2 + " is: " + relationship);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null,e.getMessage(),"ALERT",JOptionPane.ERROR_MESSAGE);
+            }
+        }else {
+            JOptionPane.showMessageDialog(null, "Invalid names. Please enter valid names.");
         }
     }
 
@@ -143,7 +167,7 @@ public class ArbolBinarioGrafico extends JFrame{
     private void exitTree() {
         int decision = JOptionPane.showConfirmDialog(null, "Do you want to exit the Genealogy Tree?", "Exit", JOptionPane.YES_NO_OPTION);
         if (decision == JOptionPane.YES_OPTION) {
-            bool = false;
+            System.exit(0);
         }
     }
 
@@ -177,14 +201,14 @@ public class ArbolBinarioGrafico extends JFrame{
         g.setColor(Color.BLACK);
         g.setFont(new Font("ARIAL", Font.BOLD, 13));
         String t = String.valueOf(x.getData());
-        g.drawString(t, m+20, y+30);
+        g.drawString(t, m + 20, y + 30);
 
         List<Node> children = x.getChildren();
         int totalWidth = m - 50 * (children.size() - 1);
 
-        for(Node child : children) {
-            int x2 = drawTree(g, child, totalWidth,totalWidth+50,y+80);
-            g.drawLine(m+25,y+40,x2+25,y+80);
+        for (Node child : children) {
+            int x2 = drawTree(g, child, totalWidth, totalWidth + 50, y + 80);
+            g.drawLine(m + 25, y + 40, x2 + 25, y + 80);
             totalWidth += 150;
         }
         return m;

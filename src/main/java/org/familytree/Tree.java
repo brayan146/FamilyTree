@@ -183,11 +183,9 @@ public class Tree {
         List<Node> fullSiblingsOfPerson2 = getFullSiblings(person2);
         for (Node sibling : fullSiblingsOfPerson2) {
             if (sibling.getData().equals(person1)) {
-                return "Sibling";
+                return "Siblings";
             }
         }
-
-
 
 
         List<Node> unclesAndAuntsOfPerson2 = getUnclesAndAunts(person2);
@@ -219,10 +217,7 @@ public class Tree {
         }
 
 
-
-
         return "No Exist in the Familytree";
     }
-
 
 }
